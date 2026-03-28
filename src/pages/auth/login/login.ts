@@ -18,7 +18,6 @@ form?.addEventListener("submit", (e: SubmitEvent) => {
     (u) => u.email == valueEmail && u.password == valuePassword,
   )[0];
 
-  // MOSTRAR ESTE MENSAJE CUANDO HAYA UN ERROR
   if (!userFounded) {
     alert.style.display = "block";
     return;
