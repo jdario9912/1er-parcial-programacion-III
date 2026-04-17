@@ -27,7 +27,7 @@ header {
     border-bottom: 1px solid var(--separator-color);
 }
 
-h1 {
+h1 a {
     color: var(--primary-color);
 }
 
