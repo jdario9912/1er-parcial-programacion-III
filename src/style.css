@@ -7,7 +7,10 @@
 }
 
 body,
-ul {
+ul,
+h1,
+h2,
+h3 {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -17,13 +20,14 @@ body {
     font-family: Arial, sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
+    height: 100svh;
 }
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    padding: 2rem 3rem;
     border-bottom: 1px solid var(--separator-color);
 }
 
@@ -43,4 +47,127 @@ nav a {
 
 nav li:hover {
     text-decoration: underline;
+}
+
+.main-layout {
+    display: flex;
+    height: 100%;
+}
+
+.aside-categories {
+    width: 20%;
+    height: 100%;
+    padding: 2rem 0rem;
+    border-right: 1px solid var(--separator-color);
+}
+
+.aside-categories h3 {
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.aside-categories ul {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+.aside-categories li {
+    padding: 0.8rem;
+    background-color: var(--background-color);
+}
+
+.aside-categories li:hover {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+}
+
+.main-content {
+    width: 100%;
+    height: 100%;
+    padding: 2rem 0rem 0rem 1rem;
+}
+
+.product-container {
+    width: 100%;
+    height: 100%;
+    padding: 2rem 0rem;
+}
+
+.product-list {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.product-card {
+    background: #fff;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s;
+    max-width: 400px;
+    min-width: 200px;
+}
+
+.product-card:hover {
+    box-shadow: 0 4px 16px rgba(52, 152, 219, 0.15);
+}
+
+.product-image {
+    max-width: 100%;
+    display: block;
+}
+
+.product-details {
+    padding: 1rem;
+    display: block;
+}
+
+.producto-category-price-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.product-category {
+    display: inline;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin: 0.2rem 0rem;
+}
+
+.product-price {
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+.product-name {
+    font-size: 1.1rem;
+    margin: 0;
+    font-weight: bold;
+}
+
+.product-description {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 0.9rem;
+}
+
+.add-button {
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.add-button:hover {
+    background: #217dbb;
 }
