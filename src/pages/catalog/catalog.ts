@@ -1,11 +1,11 @@
 import { getCategories, getProducts } from "../../data/data";
 import { productCard } from "../../templates/product-card";
-import { headerUI } from "../../ui/header";
-import { addProductToCart } from "../cart/utils";
+import { cartCounter, header } from "../../utils/common-ui";
+import { addProductToCart, getCart } from "../cart/utils";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const app = document.getElementById("header") as HTMLDivElement;
-  app.appendChild(headerUI);
+  header();
+  cartCounter();
 });
 
 const categoryContainer = document.getElementById(
@@ -64,9 +64,16 @@ const addButtons = document.querySelectorAll(
 ) as NodeListOf<HTMLButtonElement>;
 
 addButtons.forEach((button) => {
-  button.addEventListener("click", async () => {
+  button.addEventListener("click", () => {
+    const counterVisor = document.getElementById(
+      "cart-counter",
+    ) as HTMLSpanElement;
+
     const productId = button.dataset.productId;
     const product = products.find((p) => p.id === Number(productId));
-    if (product) await addProductToCart(product.id);
+    if (product) {
+      addProductToCart(product.id);
+      counterVisor.textContent = String(getCart().length);
+    }
   });
 });

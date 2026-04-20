@@ -1,6 +1,6 @@
-import { headerUI } from "../../ui/header";
+import { cartCounter, header } from "../../utils/common-ui";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const app = document.getElementById("header") as HTMLDivElement;
-  app.appendChild(headerUI);
+  header();
+  cartCounter();
 });
