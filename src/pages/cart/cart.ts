@@ -1,4 +1,5 @@
-import { cartCounter, header } from "../../utils/common-ui";
+import { cartCounter } from "../../ui/common/cart-counter";
+import { header } from "../../ui/common/header";
 
 document.addEventListener("DOMContentLoaded", () => {
   header();

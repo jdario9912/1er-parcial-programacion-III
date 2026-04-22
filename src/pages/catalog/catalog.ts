@@ -1,6 +1,7 @@
 import { getCategories, getProducts } from "../../data/data";
 import { productCard } from "../../templates/product-card";
-import { cartCounter, header } from "../../utils/common-ui";
+import { cartCounter } from "../../ui/common/cart-counter";
+import { header } from "../../ui/common/header";
 import { addProductToCart, getCart } from "../cart/utils";
 
 document.addEventListener("DOMContentLoaded", () => {
