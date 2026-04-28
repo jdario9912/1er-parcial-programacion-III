@@ -1,4 +1,5 @@
 import { getProducts } from "../../data/data";
+import { cartEmpty } from "../../templates/cart-empty";
 import { cartProductCard } from "../../templates/cart-product-card";
 import { cartCounter } from "../../ui/common/cart-counter";
 
@@ -65,15 +66,22 @@ export const updateCart = () => {
 };
 
 export const renderCart = () => {
+  const itemsInCart = updateCart();
   const cartList = document.getElementById("cart-list");
   if (!cartList) return;
 
   cartList.innerHTML = "";
 
+  if (itemsInCart.length === 0) {
+    cartList.style.width = "60%";
+    cartList.innerHTML = cartEmpty();
+    return;
+  }
+
   const list = document.createElement("ul");
   list.classList.add("cart-list");
 
-  updateCart().forEach((product) => {
+  itemsInCart.forEach((product) => {
     if (!product.product) return;
 
     const li = document.createElement("li");
