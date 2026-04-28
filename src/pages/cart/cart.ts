@@ -2,7 +2,7 @@ import { getProducts } from "../../data/data";
 import { cartProductCard } from "../../templates/cart-product-card";
 import { cartCounter } from "../../ui/common/cart-counter";
 import { header } from "../../ui/common/header";
-import { getCart, removeProductFromCart } from "./utils";
+import { getCart, removeProductFromCart, updateCartQuantity } from "./utils";
 
 document.addEventListener("DOMContentLoaded", () => {
   header();
@@ -11,10 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const updateCart = () => {
   const products = getProducts();
-  const idsProductsInCart = getCart();
-  return idsProductsInCart.map((id) =>
-    products.find((product) => product.id === id),
-  );
+  const itemsProductsInCart = getCart();
+  return itemsProductsInCart.map((item) => {
+    return {
+      product: products.find((product) => product.id === item.id),
+      quantity: item.quantity,
+    };
+  });
 };
 
 function renderCart() {
@@ -26,13 +29,11 @@ function renderCart() {
   const list = document.createElement("ul");
   list.classList.add("cart-list");
 
-  const productsInCart = updateCart();
-
-  productsInCart.forEach((product) => {
-    if (!product) return;
+  updateCart().forEach((product) => {
+    if (!product.product) return;
 
     const li = document.createElement("li");
-    li.innerHTML = cartProductCard(product);
+    li.innerHTML = cartProductCard(product.product, product.quantity);
 
     list.appendChild(li);
   });
@@ -54,5 +55,50 @@ document.addEventListener("click", (e) => {
       renderCart();
       cartCounter();
     }
+  }
+});
+
+document.addEventListener("click", (e) => {
+  const target = e.target as HTMLElement;
+
+  if (target.matches("#increment-quantity")) {
+    const button = target as HTMLButtonElement;
+    const productId = button.dataset.productId;
+
+    if (!productId) return;
+    const productIdParsed = Number(productId);
+
+    const product = getProducts().find((p) => p.id === productIdParsed);
+    if (!product) return;
+
+    const item = getCart().find((item) => item.id === productIdParsed);
+    if (!item) return;
+
+    const quantityUpdated =
+      item.quantity++ <= product.stock ? item.quantity : product.stock;
+
+    updateCartQuantity(productIdParsed, quantityUpdated);
+    renderCart();
+    cartCounter();
+  }
+
+  if (target.matches("#decrement-quantity")) {
+    const button = target as HTMLButtonElement;
+    const productId = button.dataset.productId;
+
+    if (!productId) return;
+    const productIdParsed = Number(productId);
+
+    const product = getProducts().find((p) => p.id === productIdParsed);
+    if (!product) return;
+
+    const item = getCart().find((item) => item.id === productIdParsed);
+    if (!item) return;
+
+    const quantityUpdated = item.quantity-- > 1 ? item.quantity : 1;
+
+    updateCartQuantity(productIdParsed, quantityUpdated);
+    renderCart();
+    cartCounter();
   }
 });

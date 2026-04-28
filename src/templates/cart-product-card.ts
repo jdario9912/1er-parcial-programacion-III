@@ -1,6 +1,6 @@
 import type { Product } from "../types/product";
 
-export const cartProductCard = (product: Product) => {
+export const cartProductCard = (product: Product, quantity: number) => {
   return `
     <div class="cart-card">
         <div class="cart-card-image">
@@ -20,8 +20,9 @@ export const cartProductCard = (product: Product) => {
             </div>
             <div class="cart-card-actions">
                 <div class="cart-card-quantity">
-                    <button>-</button><span>1</span
-                    ><button>+</button>
+                    <button id="decrement-quantity" data-product-id="${product?.id}">-</button>
+                    <span>${quantity}</span>
+                    <button id="increment-quantity" data-product-id="${product?.id}">+</button>
                 </div>
                 <button class="remove-button" data-product-id="${product?.id}" id="remove-button">
                     Eliminar
