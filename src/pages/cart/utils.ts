@@ -22,7 +22,8 @@ export const removeProductFromCart = (productId: number): void => {
   const cart = getCart();
   const index = cart.indexOf(productId);
   if (index !== -1) {
-    idsInCart = cart.filter((id) => id == index);
+    console.log("Removing product from cart:", productId);
+    idsInCart = cart.filter((id) => id !== productId);
     saveCartInLocalStorage(idsInCart);
   }
 };

@@ -1,6 +1,5 @@
 import { getProducts } from "../../data/data";
 import { cartProductCard } from "../../templates/cart-product-card";
-import type { Product } from "../../types/product";
 import { cartCounter } from "../../ui/common/cart-counter";
 import { header } from "../../ui/common/header";
 import { getCart, removeProductFromCart } from "./utils";
@@ -10,44 +9,49 @@ document.addEventListener("DOMContentLoaded", () => {
   cartCounter();
 });
 
-let productsInCart: (Product | undefined)[] = [];
-const products = getProducts();
-
 const updateCart = () => {
+  const products = getProducts();
   const idsProductsInCart = getCart();
   return idsProductsInCart.map((id) =>
     products.find((product) => product.id === id),
   );
 };
 
-const cartList = document.getElementById("cart-list");
-const list = document.createElement("ul");
-list.classList.add("cart-list");
-productsInCart = updateCart();
-productsInCart.forEach((product) => {
-  const li = document.createElement("li");
-  li.innerHTML = cartProductCard(product!);
+function renderCart() {
+  const cartList = document.getElementById("cart-list");
+  if (!cartList) return;
 
-  list.appendChild(li);
-});
+  cartList.innerHTML = "";
 
-cartList?.appendChild(list);
+  const list = document.createElement("ul");
+  list.classList.add("cart-list");
 
-const removeButtons = document.querySelectorAll(
-  "#remove-button",
-) as NodeListOf<HTMLButtonElement>;
+  const productsInCart = updateCart();
 
-removeButtons.forEach((button) => {
-  button.addEventListener("click", () => {
+  productsInCart.forEach((product) => {
+    if (!product) return;
+
+    const li = document.createElement("li");
+    li.innerHTML = cartProductCard(product);
+
+    list.appendChild(li);
+  });
+
+  cartList.appendChild(list);
+}
+
+renderCart();
+
+document.addEventListener("click", (e) => {
+  const target = e.target as HTMLElement;
+
+  if (target.matches("#remove-button")) {
+    const button = target as HTMLButtonElement;
     const productId = button.dataset.productId;
+
     if (productId) {
       removeProductFromCart(Number(productId));
+      renderCart();
     }
-  });
+  }
 });
-// productsInCart = updateCart();
-// productsInCart.forEach((product) => {
-//   const li = document.createElement("li");
-//   li.innerHTML = cartProductCard(product!);
-//   list.appendChild(li);
-// });
