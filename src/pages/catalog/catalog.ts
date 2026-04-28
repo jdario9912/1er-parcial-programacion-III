@@ -1,5 +1,5 @@
 import { getCategories, getProducts } from "../../data/data";
-import { productCard } from "../../templates/product-card";
+import { productCard } from "../../templates/catalog-product-card";
 import { cartCounter } from "../../ui/common/cart-counter";
 import { header } from "../../ui/common/header";
 import { addProductToCart, getCart } from "../cart/utils";
@@ -9,13 +9,30 @@ document.addEventListener("DOMContentLoaded", () => {
   cartCounter();
 });
 
+const products = getProducts();
+const categories = getCategories();
+
 const categoryContainer = document.getElementById(
   "category-container",
 ) as HTMLDivElement;
 
 const ul = document.createElement("ul");
+const li = document.createElement("li") as HTMLLIElement;
+const resetFiltersButton = document.createElement(
+  "button",
+) as HTMLButtonElement;
 
-const categories = getCategories();
+resetFiltersButton.textContent = "Todas";
+resetFiltersButton.addEventListener("click", () => {
+  productList.innerHTML = "";
+  products.forEach((product) => {
+    const card = productCard(product);
+    productList.innerHTML += card;
+  });
+});
+
+li.appendChild(resetFiltersButton);
+ul.appendChild(li);
 
 categories.forEach((category) => {
   const li = document.createElement("li") as HTMLLIElement;
@@ -38,8 +55,6 @@ categories.forEach((category) => {
 categoryContainer.appendChild(ul);
 
 const productList = document.getElementById("product-list") as HTMLDivElement;
-
-const products = getProducts();
 
 const searchInput = document.getElementById("search") as HTMLInputElement;
 

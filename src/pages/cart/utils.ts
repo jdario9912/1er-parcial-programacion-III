@@ -18,11 +18,12 @@ export const addProductToCart = (productId: number): void => {
 };
 
 export const removeProductFromCart = (productId: number): void => {
+  let idsInCart: number[] = [];
   const cart = getCart();
   const index = cart.indexOf(productId);
   if (index !== -1) {
-    cart.splice(index, 1);
-    saveCartInLocalStorage(cart);
+    idsInCart = cart.filter((id) => id == index);
+    saveCartInLocalStorage(idsInCart);
   }
 };
 
