@@ -2,7 +2,7 @@ import { getCategories, getProducts } from "../../data/data";
 import { productCard } from "../../templates/catalog-product-card";
 import { cartCounter } from "../../ui/common/cart-counter";
 import { header } from "../../ui/common/header";
-import { addProductToCart, getCart } from "../cart/utils";
+import { addProductToCart } from "../cart/utils";
 
 document.addEventListener("DOMContentLoaded", () => {
   header();
@@ -56,18 +56,19 @@ categoryContainer.appendChild(ul);
 
 const productList = document.getElementById("product-list") as HTMLDivElement;
 
-const searchInput = document.getElementById("search") as HTMLInputElement;
-
-searchInput.addEventListener("input", () => {
-  const searchTerm = searchInput.value.toLowerCase();
-  const filteredProducts = products.filter((product) =>
-    product.nombre.toLowerCase().includes(searchTerm),
-  );
-  productList.innerHTML = "";
-  filteredProducts.forEach((product) => {
-    const card = productCard(product);
-    productList.innerHTML += card;
-  });
+document.addEventListener("input", (e) => {
+  const target = e.target as HTMLInputElement;
+  if (target.matches("#search")) {
+    const searchTerm = target.value.toLowerCase();
+    const filteredProducts = products.filter((product) =>
+      product.nombre.toLowerCase().includes(searchTerm),
+    );
+    productList.innerHTML = "";
+    filteredProducts.forEach((product) => {
+      const card = productCard(product);
+      productList.innerHTML += card;
+    });
+  }
 });
 
 products.forEach((product) => {
@@ -75,21 +76,15 @@ products.forEach((product) => {
   productList.innerHTML += card;
 });
 
-const addButtons = document.querySelectorAll(
-  "#add-button",
-) as NodeListOf<HTMLButtonElement>;
+document.addEventListener("click", (e) => {
+  const target = e.target as HTMLElement;
 
-addButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const counterVisor = document.getElementById(
-      "cart-counter",
-    ) as HTMLSpanElement;
-
+  if (target.matches("#add-button")) {
+    const button = target as HTMLButtonElement;
     const productId = button.dataset.productId;
-    const product = products.find((p) => p.id === Number(productId));
-    if (product) {
-      addProductToCart(product.id);
-      counterVisor.textContent = String(getCart().length);
+    if (productId) {
+      addProductToCart(Number(productId));
+      cartCounter();
     }
-  });
+  }
 });
