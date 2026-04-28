@@ -6,6 +6,10 @@ Aplicación de carrito de compras desarrollada como primer parcial de Programaci
 
 ---
 
+Ver el video de presentación [aquí](https://youtu.be/_VT9fhEzyyA)
+
+---
+
 ## 🚀 Instalación y Uso
 
 Se recomienda usar `pnpm` como gestor de paquetes para mayor eficiencia en el manejo de dependencias.
