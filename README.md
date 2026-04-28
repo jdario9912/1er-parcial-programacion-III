@@ -2,7 +2,7 @@
 
 ## ✍️ Descripción
 
-Proyecto que implementa un carrito de compras, almacenando los datos en `localStorage`. No consume ninguna API, la intención es implementar la aplicación en el lado del cliente (frontend) utilizando **Vite** y **TypeScript**.
+Aplicación de carrito de compras desarrollada como primer parcial de Programación III. Permite al usuario explorar un catálogo de productos, agregar ítems al carrito, modificar cantidades y vaciar el carrito. Toda la información se persiste en `localStorage`, sin necesidad de un backend ni conexión a una API externa.
 
 ---
 
@@ -35,29 +35,3 @@ pnpm dev
 ```
 
 La aplicación estará disponible en la URL que aparezca en la terminal (generalmente `http://localhost:5173`).
-
----
-
-## ⚙️ ¿Cómo Funciona el Carrito de Compras?
-
-
-
----
-
-## 📁 Estructura del Proyecto
-
-```
-/
-├── src/
-│   ├── pages/                # Contiene las páginas de la aplicación
-│   │   ├── admin/            # Páginas solo para administradores
-│   │   ├── auth/             # Páginas de autenticación (login, registro)
-│   │   └── client/           # Páginas solo para clientes
-│   ├── types/                # Define las interfaces y tipos (IUser, Rol)
-│   └── utils/                # Lógica reutilizable
-│       ├── auth.ts           # Función principal de verificación de rol y sesión
-│       ├── localStorage.ts   # Funciones para leer/escribir en localStorage
-│       └── navigate.ts       # Función para redirigir al usuario
-├── package.json              # Dependencias y scripts
-└── README.md                 # Este archivo
-```
