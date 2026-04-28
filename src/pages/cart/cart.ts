@@ -52,6 +52,7 @@ document.addEventListener("click", (e) => {
     if (productId) {
       removeProductFromCart(Number(productId));
       renderCart();
+      cartCounter();
     }
   }
 });
