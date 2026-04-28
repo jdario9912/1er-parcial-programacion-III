@@ -1,3 +1,7 @@
+import { getProducts } from "../../data/data";
+import { cartProductCard } from "../../templates/cart-product-card";
+import { cartCounter } from "../../ui/common/cart-counter";
+
 const CART_KEY = "cart";
 
 type CartItem = {
@@ -47,4 +51,100 @@ export const updateCartQuantity = async (
     cart[index].quantity = quantity;
     saveCartInLocalStorage(cart);
   }
+};
+
+export const updateCart = () => {
+  const products = getProducts();
+  const itemsProductsInCart = getCart();
+  return itemsProductsInCart.map((item) => {
+    return {
+      product: products.find((product) => product.id === item.id),
+      quantity: item.quantity,
+    };
+  });
+};
+
+export const renderCart = () => {
+  const cartList = document.getElementById("cart-list");
+  if (!cartList) return;
+
+  cartList.innerHTML = "";
+
+  const list = document.createElement("ul");
+  list.classList.add("cart-list");
+
+  updateCart().forEach((product) => {
+    if (!product.product) return;
+
+    const li = document.createElement("li");
+    li.innerHTML = cartProductCard(product.product, product.quantity);
+
+    list.appendChild(li);
+  });
+
+  cartList.appendChild(list);
+};
+
+export const removeItem = () => {
+  document.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+
+    if (target.matches("#remove-button")) {
+      const button = target as HTMLButtonElement;
+      const productId = button.dataset.productId;
+
+      if (productId) {
+        removeProductFromCart(Number(productId));
+        renderCart();
+        cartCounter();
+      }
+    }
+  });
+};
+
+export const updateItemQuantity = () => {
+  document.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+
+    if (target.matches("#increment-quantity")) {
+      const button = target as HTMLButtonElement;
+      const productId = button.dataset.productId;
+
+      if (!productId) return;
+      const productIdParsed = Number(productId);
+
+      const product = getProducts().find((p) => p.id === productIdParsed);
+      if (!product) return;
+
+      const item = getCart().find((item) => item.id === productIdParsed);
+      if (!item) return;
+
+      const quantityUpdated =
+        item.quantity++ <= product.stock ? item.quantity : product.stock;
+
+      updateCartQuantity(productIdParsed, quantityUpdated);
+      renderCart();
+      cartCounter();
+    }
+
+    if (target.matches("#decrement-quantity")) {
+      const button = target as HTMLButtonElement;
+      const productId = button.dataset.productId;
+
+      if (!productId) return;
+      const productIdParsed = Number(productId);
+
+      const product = getProducts().find((p) => p.id === productIdParsed);
+      if (!product) return;
+
+      const item = getCart().find((item) => item.id === productIdParsed);
+      if (!item) return;
+
+      const quantityUpdated = item.quantity-- > 1 ? item.quantity : 1;
+
+      updateCartQuantity(productIdParsed, quantityUpdated);
+      renderCart();
+      cartCounter();
+    }
+  });
 };
